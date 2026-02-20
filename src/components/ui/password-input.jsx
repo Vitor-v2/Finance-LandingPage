@@ -1,11 +1,10 @@
-import { Label } from '@radix-ui/react-label'
 import { EyeClosedIcon, EyeIcon } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from './button'
 import { Input } from './input'
 
-const InputPassword = () => {
+const InputPassword = ({ placeholder, ref, ...props }) => {
   const [seePwd, setseePwd] = useState(false)
 
   return (
@@ -25,8 +24,10 @@ const InputPassword = () => {
         <Input
           id="password"
           type={seePwd ? 'text' : 'password'}
-          placeholder="Digite a sua senha"
+          placeholder={placeholder}
+          ref={ref}
           required
+          {...props}
         />
       </div>
     </>
