@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Controller, Form, FormProvider, useForm } from 'react-hook-form'
 import { Link } from 'react-router'
+import { toast } from 'sonner'
 import z from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -22,14 +24,33 @@ import {
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import InputPassword from '@/components/ui/password-input'
+import { api } from '@/lib/axios'
 
 const CreateAccount = () => {
+  const singUpMutation = useMutation({
+    mutationKey: ['signup'],
+    mutationFn: async (variables) => {
+      const response = await api.post('/users', {
+        first_name: variables.firstName,
+        last_name: variables.lastName,
+        email: variables.email,
+        password: variables.password,
+      })
+      return response.data
+    },
+  })
+
   const schema = z
     .object({
-      user: z
+      firstName: z
         .string()
         .trim()
         .min(3, { error: 'Coloque um nome válido' })
+        .max(30),
+      lastName: z
+        .string()
+        .trim()
+        .min(3, { error: 'Coloque um sobrenome válido' })
         .max(30),
       email: z.email({ error: 'Digite um email válido' }).trim(),
       password: z
@@ -52,7 +73,8 @@ const CreateAccount = () => {
   const methods = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      user: '',
+      firstName: '',
+      lastname: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -62,7 +84,16 @@ const CreateAccount = () => {
   })
 
   const handleSubmitData = (data) => {
-    console.log(data)
+    singUpMutation.mutate(data, {
+      onSuccess: (createdUser) => {
+        const accessToken = createdUser.tokens.accessToken
+        const refreshToken = createdUser.tokens.refreshToken
+        localStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('refreshToken', refreshToken)
+        toast.success('usuário criado com sucesso')
+      },
+      onError: () => toast.error('Houve um erro, usuário não criado'),
+    })
   }
 
   return (
@@ -80,14 +111,32 @@ const CreateAccount = () => {
               <CardContent>
                 <div className="grid gap-2">
                   <Controller
-                    name="user"
+                    name="firstName"
                     control={methods.control}
                     render={({ field, fieldState }) => (
                       <Field>
-                        <FieldLabel htmlFor="user">Usuário</FieldLabel>
+                        <FieldLabel htmlFor="firstName">Nome</FieldLabel>
                         <Input
-                          id="user"
+                          id="firstName"
                           placeholder="Digite seu nome"
+                          autoComplete="off"
+                          {...field}
+                        />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    name="lastName"
+                    control={methods.control}
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel htmlFor="lastName">Sobrenome</FieldLabel>
+                        <Input
+                          id="lastName"
+                          placeholder="Digite seu sobrenome"
                           autoComplete="off"
                           {...field}
                         />
@@ -107,7 +156,7 @@ const CreateAccount = () => {
                         <Input
                           {...field}
                           id="email"
-                          placeholder="Digite seu nome"
+                          placeholder="Digite seu email"
                           autoComplete="off"
                         />
                         {fieldState.invalid && (
@@ -125,7 +174,7 @@ const CreateAccount = () => {
                         <InputPassword
                           {...field}
                           id="password"
-                          placeholder="Digite seu Email"
+                          placeholder="Digite sua senha"
                           autoComplete="off"
                         />
                         {fieldState.invalid && (
