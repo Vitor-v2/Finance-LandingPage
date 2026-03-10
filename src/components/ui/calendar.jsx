@@ -5,6 +5,7 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 import { DayPicker, getDefaultClassNames } from 'react-day-picker'
+import { ptBR } from 'react-day-picker/locale'
 
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -23,6 +24,7 @@ function Calendar({
 
   return (
     <DayPicker
+      locale={ptBR}
       showOutsideDays={showOutsideDays}
       className={cn(
         'group/calendar bg-background p-3 [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',

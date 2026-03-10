@@ -23,7 +23,7 @@ const deleteTokens = () => {
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [initializing, setinitializing] = useState(false)
+  const [initializing, setinitializing] = useState(true)
 
   const signUpMutation = useMutation({
     mutationKey: ['signup'],
@@ -48,7 +48,6 @@ export const AuthContextProvider = ({ children }) => {
     mutationKey: ['login'],
     mutationFn: async (data) => {
       const response = userServices.login(data)
-      console.log(data)
       return response
     },
   })

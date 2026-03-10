@@ -40,9 +40,9 @@ export default {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        submitButton: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--submit-button))',
+        greenButton: {
+          DEFAULT: 'hsl(var(--green-button))',
+          foreground: 'hsl(var(--primary))',
         },
 
         border: 'hsl(var(--border))',

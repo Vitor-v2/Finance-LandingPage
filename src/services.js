@@ -2,20 +2,20 @@ import { protectedApi, publicApi } from './lib/axios'
 
 export const userServices = {
   /**
-   * @param {Object} variables campos do form
-   * @param {string} variables.first_name nome do usuário
-   * @param {string} variables.last_name sobrenome do usuário
-   * @param {string} variables.email email do usuario
-   * @param {string} variables.password senha do usuário
-   * @param {string} variables.tokens tokens para validação
+   * @param {Object} data campos do form
+   * @param {string} data.first_name nome do usuário
+   * @param {string} data.last_name sobrenome do usuário
+   * @param {string} data.email email do usuario
+   * @param {string} data.password senha do usuário
+   * @param {string} data.tokens tokens para validação
    * @returns {object}
    */
-  signIn: async (variables) => {
+  signIn: async (data) => {
     const response = await publicApi.post('/users', {
-      first_name: variables.firstName,
-      last_name: variables.lastName,
-      email: variables.email,
-      password: variables.password,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      password: data.password,
     })
     return {
       firstName: response.data.first_name,
@@ -26,12 +26,12 @@ export const userServices = {
     }
   },
   /**
-   * @param {Object} variables campos do form
-   * @param {string} variables.first_name primeiro nome
-   * @param {string} variables.last_name sobrenome
-   * @param {string} variables.email email do usuário
-   * @param {string} variables.password senha do usuário
-   * @param {string} variables.tokens tokens para validação
+   * @param {Object} data campos do form
+   * @param {string} data.first_name primeiro nome
+   * @param {string} data.last_name sobrenome
+   * @param {string} data.email email do usuário
+   * @param {string} data.password senha do usuário
+   * @param {string} data.tokens tokens para validação
    * @returns {object}
    */
   login: async (data) => {
@@ -55,4 +55,15 @@ export const userServices = {
       tokens: response.data.tokens,
     }
   },
+
+  /**
+   * @param {Object} variables campos do form
+   * @param {string} variables.first_name primeiro nome
+   * @param {string} variables.last_name sobrenome
+   * @param {string} variables.email email do usuário
+   * @param {string} variables.password senha do usuário
+   * @param {string} variables.tokens tokens para validação
+   * @returns {object}
+   */
+  getBalance: async () => {},
 }
