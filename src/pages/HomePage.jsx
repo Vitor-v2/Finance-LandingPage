@@ -1,9 +1,9 @@
-import { Plus } from 'lucide-react'
 import { Navigate } from 'react-router'
 
+import Balance from '@/components/balance'
 import Header from '@/components/Header'
+import ButtonTransaction from '@/components/new-transaction-button'
 import PickCalendar from '@/components/pickdate-calendar'
-import { Button } from '@/components/ui/button'
 import { useAuthContext } from '@/context/useAuthContext'
 
 const HomePage = () => {
@@ -19,10 +19,11 @@ const HomePage = () => {
         <h2 className="text-2xl">DashBoard</h2>
         <div className="flex gap-5">
           <PickCalendar />
-          <Button variant="submitButton" className="rounded-5">
-            Nova transação <Plus />{' '}
-          </Button>
+          <ButtonTransaction />
         </div>
+      </div>
+      <div>
+        <Balance />
       </div>
     </>
   )

@@ -65,5 +65,26 @@ export const userServices = {
    * @param {string} variables.tokens tokens para validação
    * @returns {object}
    */
-  getBalance: async () => {},
+  getBalance: async (date) => {
+    const queryParams = new URLSearchParams()
+    queryParams.set('from', date.from)
+    queryParams.set('to', date.to)
+    const response = await protectedApi.get(
+      `/users/me/balance?${queryParams.toString()}`
+    )
+    return response.data
+  },
+}
+
+export const transactionServices = {
+  create: async (data) => {
+    const transaction = {
+      name: data.nameTransaction,
+      type: data.typeTransaction,
+      date: data.dateTransaction,
+      amount: data.valueTransaction,
+    }
+    const response = await protectedApi.post('/transactions/me', transaction)
+    return response.data
+  },
 }
