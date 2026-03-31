@@ -49,6 +49,7 @@ export const userServices = {
   me: async () => {
     const response = await protectedApi.get('/users/me')
     return {
+      id: response.data.id,
       firstName: response.data.first_name,
       lastName: response.data.last_name,
       email: response.data.email,

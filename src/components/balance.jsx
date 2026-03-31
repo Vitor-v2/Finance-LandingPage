@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
 import {
   BanknoteArrowDown,
   BanknoteArrowUpIcon,
@@ -7,23 +6,15 @@ import {
 } from 'lucide-react'
 import { useSearchParams } from 'react-router'
 
-import { useAuthContext } from '@/context/useAuthContext'
-import { userServices } from '@/services'
+import { useGetBalance } from '@/data/api/user'
 
 import CardBalance from './card-balance'
 
 const Balance = () => {
   const [searchParams] = useSearchParams()
-  const { user } = useAuthContext()
-  const { data } = useQuery({
-    queryKey: ['balance', user.id],
-    queryFn: () => {
-      const from = searchParams.get('from')
-      const to = searchParams.get('to')
-      return userServices.getBalance({ from, to })
-    },
-  })
-
+  const from = searchParams.get('from')
+  const to = searchParams.get('to')
+  const { data } = useGetBalance(from, to)
   return (
     <section className="grid grid-cols-2">
       <div className="grid grid-cols-[1fr,1fr] gap-5">

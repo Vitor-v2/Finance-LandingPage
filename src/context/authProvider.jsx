@@ -1,4 +1,3 @@
-import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router'
 import { toast } from 'sonner'
@@ -7,6 +6,7 @@ import {
   ACCESS_TK_STORAGE,
   REFRESH_TK_STORAGE,
 } from '@/constants/local-storage'
+import { useLogin, useSignUp } from '@/data/api/user'
 import { userServices } from '@/services'
 
 import { AuthContext } from './useAuthContext'
@@ -25,13 +25,8 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [initializing, setinitializing] = useState(true)
 
-  const signUpMutation = useMutation({
-    mutationKey: ['signup'],
-    mutationFn: async (variables) => {
-      const response = userServices.signIn(variables)
-      return response
-    },
-  })
+  const signUpMutation = useSignUp()
+  const loginMutation = useLogin()
 
   const signUp = (data) => {
     signUpMutation.mutate(data, {
@@ -44,13 +39,6 @@ export const AuthContextProvider = ({ children }) => {
         toast.error(`Houve um erro, usuário não criado: ${error}`),
     })
   }
-  const loginMutation = useMutation({
-    mutationKey: ['login'],
-    mutationFn: async (data) => {
-      const response = userServices.login(data)
-      return response
-    },
-  })
 
   const login = (data) => {
     loginMutation.mutate(data, {

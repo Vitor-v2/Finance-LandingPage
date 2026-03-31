@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DialogTitle } from '@radix-ui/react-dialog'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Loader2Icon, Plus } from 'lucide-react'
 import {
   BanknoteArrowDown,
@@ -14,8 +13,7 @@ import { Form } from 'react-router'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import { useAuthContext } from '@/context/useAuthContext'
-import { transactionServices } from '@/services'
+import useCreateTransaction from '@/data/api/useCreateTransaction'
 
 import { Button } from './ui/button'
 import { DatePickerSimple } from './ui/calendar-pick'
@@ -40,18 +38,9 @@ import {
 
 const ButtonTransaction = () => {
   const [open, setOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { user } = useAuthContext()
 
-  const { mutateAsync: createTransaction } = useMutation({
-    mutationKey: ['createTransaction'],
-    mutationFn: async (data) => {
-      return await transactionServices.create(data)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['balance', user.id] })
-    },
-  })
+  const { mutateAsync: createTransaction } = useCreateTransaction()
+
   const schema = z.object({
     nameTransaction: z
       .string()

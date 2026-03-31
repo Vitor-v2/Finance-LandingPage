@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 
 import { useAuthContext } from '@/context/useAuthContext'
+import { queryKeyGetBalance } from '@/data/api/user'
 
 import { DatePickerWithRange } from './ui/calendar-range'
 
@@ -40,7 +41,9 @@ export const PickCalendar = () => {
     queryParams.set('from', formatDate(date.from))
     queryParams.set('to', formatDate(date.to))
     navigate(`/?${queryParams.toString()}`)
-    queryClient.invalidateQueries({ queryKey: ['balance', user.id] })
+    queryClient.invalidateQueries({
+      queryKey: queryKeyGetBalance({ userId: user.id }),
+    })
   }, [navigate, date, queryClient, user])
 
   return <DatePickerWithRange value={date} onChange={setDate} />

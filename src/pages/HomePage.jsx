@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router'
 
 import Balance from '@/components/balance'
-import Header from '@/components/Header'
+import Header from '@/components/header'
 import ButtonTransaction from '@/components/new-transaction-button'
 import PickCalendar from '@/components/pickdate-calendar'
 import { useAuthContext } from '@/context/useAuthContext'
