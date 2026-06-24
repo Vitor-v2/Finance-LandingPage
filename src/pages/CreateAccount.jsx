@@ -1,8 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, Form, FormProvider, useForm } from 'react-hook-form'
+import { Loader2Icon } from 'lucide-react'
+import { Controller, Form, FormProvider } from 'react-hook-form'
 import { Link } from 'react-router'
 import { Navigate } from 'react-router'
-import z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -24,51 +23,11 @@ import {
 import { Input } from '@/components/ui/input'
 import InputPassword from '@/components/ui/password-input'
 import { useAuthContext } from '@/context/useAuthContext'
+import { useSignUpForm } from '@/forms/hooks/user'
 
 const CreateAccount = () => {
   const { user, signUp, initializing } = useAuthContext()
-  const schema = z
-    .object({
-      firstName: z
-        .string()
-        .trim()
-        .min(3, { error: 'Coloque um nome válido' })
-        .max(30),
-      lastName: z
-        .string()
-        .trim()
-        .min(3, { error: 'Coloque um sobrenome válido' })
-        .max(30),
-      email: z.email({ error: 'Digite um email válido' }).trim(),
-      password: z
-        .string()
-        .trim()
-        .min(6, { error: 'senha deve conter no mínimo 6 caracteres' }),
-      confirmPassword: z
-        .string()
-        .trim()
-        .min(6, { error: 'verifique novamente a senha digitada.' }),
-      terms: z.boolean().refine((value) => value === true, {
-        error: 'É necessário que aceite os termos',
-      }),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      error: 'Senhas estão diferentes',
-      path: ['confirmPassword'],
-    })
-
-  const methods = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      firstName: '',
-      lastname: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      terms: false,
-    },
-    mode: 'onBlur',
-  })
+  const { form: methods } = useSignUpForm()
 
   const handleSubmitData = (data) => {
     signUp(data)
@@ -225,8 +184,17 @@ const CreateAccount = () => {
                 </div>
               </CardContent>
               <CardFooter className="flex-col gap-2">
-                <Button type="submit" variant="submitButton" className="w-full">
-                  Criar conta
+                <Button
+                  type="submit"
+                  variant="submitButton"
+                  className="w-full"
+                  disabled={methods.formState.isSubmitted}
+                >
+                  {methods.formState.isSubmitted ? (
+                    <Loader2Icon className="animate-spin" />
+                  ) : (
+                    'Criar conta'
+                  )}
                 </Button>
               </CardFooter>
             </Card>

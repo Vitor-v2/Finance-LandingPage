@@ -6,8 +6,8 @@ import {
   ACCESS_TK_STORAGE,
   REFRESH_TK_STORAGE,
 } from '@/constants/local-storage'
+import { userServices } from '@/data/api/services/services'
 import { useLogin, useSignUp } from '@/data/api/user'
-import { userServices } from '@/services'
 
 import { AuthContext } from './useAuthContext'
 

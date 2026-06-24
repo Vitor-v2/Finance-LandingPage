@@ -4,6 +4,7 @@ import Balance from '@/components/balance'
 import Header from '@/components/header'
 import ButtonTransaction from '@/components/new-transaction-button'
 import PickCalendar from '@/components/pickdate-calendar'
+import Transactions from '@/components/transaction-table'
 import { useAuthContext } from '@/context/useAuthContext'
 
 const HomePage = () => {
@@ -22,8 +23,9 @@ const HomePage = () => {
           <ButtonTransaction />
         </div>
       </div>
-      <div>
+      <div className="h-screen px-5">
         <Balance />
+        <Transactions />
       </div>
     </>
   )

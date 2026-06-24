@@ -1,7 +1,6 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { Loader2Icon } from 'lucide-react'
+import { Controller, FormProvider } from 'react-hook-form'
 import { Form, Link, Navigate } from 'react-router'
-import z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,26 +15,12 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import InputPassword from '@/components/ui/password-input'
 import { useAuthContext } from '@/context/useAuthContext'
+import { useLoginForm } from '@/forms/hooks/user'
 
 const Login = () => {
   const { user, login, initializing } = useAuthContext()
 
-  const schema = z.object({
-    email: z.email({ error: 'Formato de email inválido' }).trim(),
-    password: z
-      .string()
-      .trim()
-      .nonempty({ error: 'A senha não pode ser vazia' }),
-  })
-
-  const methods = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  })
-
+  const { form: methods } = useLoginForm()
   const handleSubmitData = (data) => {
     login(data)
   }
@@ -104,8 +89,17 @@ const Login = () => {
                 />
               </CardContent>
               <CardFooter className="flex-col gap-2">
-                <Button type="submit" variant="submitButton" className="w-full">
-                  Entrar
+                <Button
+                  type="submit"
+                  variant="submitButton"
+                  className="w-full"
+                  disabled={methods.formState.isSubmitted}
+                >
+                  {methods.formState.isSubmitted ? (
+                    <Loader2Icon className="animate-spin" />
+                  ) : (
+                    'Entrar'
+                  )}
                 </Button>
                 <Button variant="outline" className="w-full">
                   Entre com o Google

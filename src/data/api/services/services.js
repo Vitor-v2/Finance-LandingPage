@@ -1,4 +1,4 @@
-import { protectedApi, publicApi } from './lib/axios'
+import { protectedApi, publicApi } from '../../../lib/axios'
 
 export const userServices = {
   /**
@@ -18,6 +18,7 @@ export const userServices = {
       password: data.password,
     })
     return {
+      id: response.data.id,
       firstName: response.data.first_name,
       lastName: response.data.last_name,
       email: response.data.email,
@@ -40,6 +41,7 @@ export const userServices = {
       password: data.password,
     })
     return {
+      id: response.data.id,
       firstName: response.data.first_name,
       lastName: response.data.last_name,
       tokens: response.data.tokens,
@@ -88,4 +90,14 @@ export const transactionServices = {
     const response = await protectedApi.post('/transactions/me', transaction)
     return response.data
   },
+}
+
+export const getAllTransactions = async (from, to) => {
+  const queryParams = new URLSearchParams()
+  queryParams.set('from', from)
+  queryParams.set('to', to)
+  const response = await protectedApi.get(
+    `/transactions/me?${queryParams.toString()}`
+  )
+  return response.data
 }

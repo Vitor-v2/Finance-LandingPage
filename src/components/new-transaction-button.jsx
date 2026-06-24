@@ -13,7 +13,7 @@ import { Form } from 'react-router'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import useCreateTransaction from '@/data/api/useCreateTransaction'
+import { useCreateTransaction } from '@/data/api/transaction'
 
 import { Button } from './ui/button'
 import { DatePickerSimple } from './ui/calendar-pick'
