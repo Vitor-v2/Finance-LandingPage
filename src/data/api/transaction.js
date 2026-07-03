@@ -18,7 +18,6 @@ export const useCreateTransaction = () => {
       return response
     },
     onSuccess: () => {
-      console.log(user.id)
       queryClient.invalidateQueries({
         queryKey: queryKeyGetBalance({ userId: user.id }),
         exact: false,

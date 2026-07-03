@@ -87,6 +87,7 @@ export const transactionServices = {
       date: data.dateTransaction,
       amount: data.valueTransaction,
     }
+    console.log(data.dateTransaction)
     const response = await protectedApi.post('/transactions/me', transaction)
     return response.data
   },

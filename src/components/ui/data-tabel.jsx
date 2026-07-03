@@ -27,7 +27,7 @@ export function DataTable({ columns, data }) {
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
               return (
-                <TableHead key={header.id}>
+                <TableHead className="text-center" key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -48,7 +48,7 @@ export function DataTable({ columns, data }) {
               data-state={row.getIsSelected() && 'selected'}
             >
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
+                <TableCell className="text-center" key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
