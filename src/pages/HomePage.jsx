@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router'
 
 import Balance from '@/components/balance'
+import ChartTransaction from '@/components/chart-transaction'
 import Header from '@/components/header'
 import ButtonTransaction from '@/components/new-transaction-button'
 import PickCalendar from '@/components/pickdate-calendar'
@@ -23,10 +24,10 @@ const HomePage = () => {
           <ButtonTransaction />
         </div>
       </div>
-      <div className="h-screen px-5">
-        <Balance />
-        <Transactions />
+      <div className="grid grid-cols-1">
+        <Balance className="grid-span-1" />
       </div>
+      <Transactions />
     </>
   )
 }

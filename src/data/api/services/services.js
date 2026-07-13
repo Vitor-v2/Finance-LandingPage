@@ -87,8 +87,21 @@ export const transactionServices = {
       date: data.dateTransaction,
       amount: data.valueTransaction,
     }
-    console.log(data.dateTransaction)
     const response = await protectedApi.post('/transactions/me', transaction)
+    return response.data
+  },
+
+  update: async (data) => {
+    const transaction = {
+      name: data.nameTransaction,
+      type: data.typeTransaction,
+      date: data.dateTransaction,
+      amount: data.valueTransaction,
+    }
+    const response = await protectedApi.patch(
+      `/transactions/me/${data.id}`,
+      transaction
+    )
     return response.data
   },
 }

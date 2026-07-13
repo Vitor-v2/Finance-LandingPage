@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+import { addHours } from 'date-fns'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -23,14 +25,14 @@ export function DatePickerSimple({ label, value, onChange }) {
             className="justify-start font-normal"
           >
             {value
-              ? Intl.DateTimeFormat('pt-BR').format(value)
+              ? format(addHours(value, 3), 'dd/MM/yyy')
               : 'Selecione a Data'}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="single"
-            selected={value}
+            selected={addHours(value)}
             defaultMonth={value}
             captionLayout="dropdown"
             onSelect={(value) => {
