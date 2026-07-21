@@ -16,30 +16,26 @@ const Balance = () => {
   const to = searchParams.get('to')
   const { data } = useGetBalance(from, to)
   return (
-    <section className="grid grid-cols-2">
-      <div className="grid grid-cols-[1fr,1fr] gap-5">
-        <CardBalance
-          data={data?.balance}
-          title="Balance"
-          icon={<PiggyBank />}
-        />
+    <>
+      <div className="col-span-2 grid grid-cols-[1fr,1fr] gap-5">
+        <CardBalance data={data?.balance} title="Saldo" icon={<PiggyBank />} />
         <CardBalance
           data={data?.earnings}
-          title="earnings"
+          title="Ganhos"
           icon={<BanknoteArrowUpIcon />}
         />
         <CardBalance
           data={data?.expenses}
-          title="expenses"
+          title="Gastos"
           icon={<BanknoteArrowDown />}
         />
         <CardBalance
           data={data?.investments}
-          title="investments"
+          title="Investimentos"
           icon={<ChartNoAxesColumn />}
         />
       </div>
-    </section>
+    </>
   )
 }
 

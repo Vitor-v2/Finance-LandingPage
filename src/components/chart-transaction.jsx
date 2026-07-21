@@ -1,10 +1,13 @@
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { useSearchParams } from 'react-router'
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
+import { Pie, PieChart } from 'recharts'
 
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -15,78 +18,85 @@ import {
 } from '@/components/ui/chart'
 import { useGetTransactions } from '@/data/api/transaction'
 
-const chartData = [
-  { month: 'January', desktop: 186 },
-  { month: 'February', desktop: 305 },
-  { month: 'March', desktop: 237 },
-  { month: 'April', desktop: 73 },
-  { month: 'May', desktop: 209 },
-  { month: 'June', desktop: 214 },
-  { data: '27/07/2026', desktop: 12.0, tipo: 'investimento' },
-]
+import DescriptionChart from './ui/description-chart'
+
 const chartConfig = {
-  desktop: {
-    color: '#2563eb',
-    label: 'teste',
+  amount: {
+    label: 'Quantia',
   },
-  valor: {
-    label: 'valor:',
+  Ganhos: {
+    label: 'Ganhos R$ ',
+
     color: 'var(--chart-1)',
   },
-  tipo: {
-    label: 'Tipo',
+  Investimentos: {
+    label: 'Investimentos ',
     color: 'var(--chart-2)',
+  },
+  Gastos: {
+    label: 'Gastos ',
+    color: 'var(--chart-3)',
   },
 }
 
-const ChartTransaction = ({ height }) => {
+const ChartTransaction = () => {
   const [searchParams] = useSearchParams()
   const from = searchParams.get('from')
   const to = searchParams.get('to')
+  const monthFrom = format(from, 'LLLL', { locale: ptBR }).toUpperCase()
+  const monthTo = format(to, 'LLLL', { locale: ptBR }).toUpperCase()
   const { data: dataTransaction } = useGetTransactions(from, to)
-  console.log(dataTransaction)
 
+  const defaultStructure = {
+    EARNING: { transaction: 'Ganhos', amount: 0, fill: 'var(--color-Ganhos)' },
+    INVESTMENT: {
+      transaction: 'Investimentos',
+      amount: 0,
+      fill: 'var(--color-Investimentos)',
+    },
+    EXPENSE: { transaction: 'Gastos', amount: 0, fill: 'var(--color-Gastos)' },
+  }
+
+  for (let index = 0; index < dataTransaction?.length; index++) {
+    const transaction = dataTransaction[index]
+    if (defaultStructure[transaction?.type]) {
+      defaultStructure[transaction.type].amount += parseFloat(
+        transaction.amount
+      )
+    }
+  }
+
+  const chartData2 = Object.values(defaultStructure)
   return (
-    <Card className="w-full" style={{ height: `${height + 18}vh` }}>
-      <CardHeader>
+    <Card className="flex flex-col">
+      <CardHeader className="items-center pb-0">
         <CardTitle>Transações</CardTitle>
-        <CardDescription>Transações entre período</CardDescription>
+        <CardDescription>{`${monthFrom} até ${monthTo}`}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="w-full text-sm"
-          style={{ height: `${height}vh` }}
+          className="mx-auto aspect-square max-h-[250px]"
         >
-          <AreaChart
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} horizontal={false} />
-            <XAxis
-              dataKey="data"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={1}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
+          <PieChart>
             <ChartTooltip
-              cursor={true}
-              content={<ChartTooltipContent indicator="dashed" />}
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
             />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+            <Pie
+              data={chartData2}
+              dataKey="amount"
+              nameKey="transaction"
+              innerRadius={60}
             />
-          </AreaChart>
+          </PieChart>
         </ChartContainer>
       </CardContent>
+      <CardFooter className="flex gap-5">
+        <DescriptionChart description="Ganhos" variant="green" />
+        <DescriptionChart description="Investimentos" variant="blue" />
+        <DescriptionChart description="Gastos" variant="red" />
+      </CardFooter>
     </Card>
   )
 }

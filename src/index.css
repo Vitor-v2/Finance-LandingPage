@@ -148,6 +148,7 @@
     --green-button:160 60% 50%;
   }
   :root {
+    --color-desktop: 27 87% 67%;
     --radius: 0.625rem;
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -168,15 +169,14 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --green-button:120 40% 50%
+    --chart-1: hsl(123.04,46.20%,33.53%);
+    --chart-2: hsl(211.93,80.28%,41.76%);
+    --chart-3: hsl(0.00,66.39%,46.67%);
+    --chart-4: hsl(280 65% 60%);
+    --chart-5: hsl(340 75% 55%);
+    --green-button:120 40% 50%;
   }
 }
-
 @layer base {
   * {
     @apply border-border;

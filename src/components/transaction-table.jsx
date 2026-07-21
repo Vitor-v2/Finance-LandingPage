@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router'
 import { useGetTransactions } from '@/data/api/transaction'
 import { AmountConvert } from '@/data/helpers/transaction-formater'
 
+import DeleteTrasactionButton from './DeleteTrasactionButton'
 import EditTransactionButton from './edit-transaction-button'
 import { DataTable } from './ui/data-tabel'
 import { ScrollArea } from './ui/scroll-area'
@@ -50,7 +51,12 @@ const columns = [
     accessorKey: 'actions',
     header: 'Ação',
     cell: ({ row: { original: transaction } }) => {
-      return <EditTransactionButton transaction={transaction} />
+      return (
+        <div className="flex justify-center gap-5">
+          <EditTransactionButton transaction={transaction} />
+          <DeleteTrasactionButton transaction={transaction} />
+        </div>
+      )
     },
   },
 ]

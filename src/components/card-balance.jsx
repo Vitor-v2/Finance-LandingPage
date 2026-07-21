@@ -7,9 +7,9 @@ const CardBalance = ({ data, title, icon }) => {
         <CardHeader>
           <div className="flex items-center gap-2">
             {icon}
-            <h1 className="text-lg">{title}</h1>
+            <h1 className="text-3xl">{title}</h1>
           </div>
-          <CardTitle className="text-2xl">
+          <CardTitle className="text-4xl">
             {Intl.NumberFormat('pt-br', {
               style: 'currency',
               currency: 'BRL',

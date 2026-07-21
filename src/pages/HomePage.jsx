@@ -24,8 +24,9 @@ const HomePage = () => {
           <ButtonTransaction />
         </div>
       </div>
-      <div className="grid grid-cols-1">
-        <Balance className="grid-span-1" />
+      <div className="grid grid-cols-3 gap-5">
+        <Balance />
+        <ChartTransaction />
       </div>
       <Transactions />
     </>

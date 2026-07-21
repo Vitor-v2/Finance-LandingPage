@@ -104,6 +104,11 @@ export const transactionServices = {
     )
     return response.data
   },
+
+  delete: async (data) => {
+    const response = await protectedApi.delete(`/transactions/me/${data.id}`)
+    return response.data
+  },
 }
 
 export const getAllTransactions = async (from, to) => {
