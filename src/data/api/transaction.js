@@ -70,8 +70,8 @@ export const useDeleteTransaction = () => {
   const { user } = useAuthContext()
   return useMutation({
     mutationKey: ['deleteTransaction'],
-    mutationFn: async (data) => {
-      const response = await transactionServices.delete(data)
+    mutationFn: async (idTask) => {
+      const response = await transactionServices.delete(idTask)
       return response
     },
     onSuccess: () => {

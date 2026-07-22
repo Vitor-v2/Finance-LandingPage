@@ -105,8 +105,8 @@ export const transactionServices = {
     return response.data
   },
 
-  delete: async (data) => {
-    const response = await protectedApi.delete(`/transactions/me/${data.id}`)
+  delete: async (taskId) => {
+    const response = await protectedApi.delete(`/transactions/me/${taskId}`)
     return response.data
   },
 }

@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 
 import { useValidateUpdate } from '@/forms/hooks/transaction'
 
+import DeleteTrasactionButton from './delete-trasaction-button'
 import { Button } from './ui/button'
 import { DatePickerSimple } from './ui/calendar-pick'
 import { Field, FieldError, FieldGroup, FieldLabel } from './ui/field'
@@ -183,7 +184,7 @@ const EditTransactionButton = ({ transaction }) => {
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Button variant="destructive" form="editTransaction">
+                  <Button variant="secondary" form="editTransaction">
                     Cancelar
                   </Button>
                 </SheetClose>

@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router'
 import { useGetTransactions } from '@/data/api/transaction'
 import { AmountConvert } from '@/data/helpers/transaction-formater'
 
-import DeleteTrasactionButton from './DeleteTrasactionButton'
+import DeleteTrasactionButton from './delete-trasaction-button'
 import EditTransactionButton from './edit-transaction-button'
 import { DataTable } from './ui/data-tabel'
 import { ScrollArea } from './ui/scroll-area'

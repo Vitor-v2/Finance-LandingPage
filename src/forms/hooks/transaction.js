@@ -2,7 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { useUpdateTransaction } from '@/data/api/transaction'
+import {
+  useDeleteTransaction,
+  useUpdateTransaction,
+} from '@/data/api/transaction'
 
 import { newTransactionSchema, schemaUpdate } from '../schema/transaction'
 
@@ -34,7 +37,7 @@ export const useValidateUpdate = ({ transaction, onSucess, onError }) => {
       dateTransaction: new Date(transaction.date),
     },
     mode: 'onBlur',
-    //shouldUnresgister: definir como true os valroes dos inputs são removidos quando componente for desmontado
+    //shouldUnresgister: definir como true os valroes dos inputs são removidos quando o componente for desmontado
     shouldUnregister: true,
   })
 
@@ -59,4 +62,20 @@ export const useValidateUpdate = ({ transaction, onSucess, onError }) => {
     }
   }
   return { form, onSubmit }
+}
+
+export const useDeleteOperation = ({ transaction, onSucess, onError }) => {
+  const { mutateAsync: deleteTransaction } = useDeleteTransaction()
+
+  const onSubmit = async () => {
+    try {
+      const response = await deleteTransaction(transaction.id)
+      onSucess(response)
+    } catch (error) {
+      onError(error)
+      console.log(error)
+    }
+  }
+
+  return { onSubmit }
 }
